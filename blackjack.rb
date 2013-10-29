@@ -63,22 +63,10 @@ def check_a?(hand)
   hand.any? { |card| card[:card] == 'Ace' }
 end
 
-# check is there is a "Jack"
-
-def check_j?(hand)
-  hand.any? { |card| card[:card] == 'Jack' }
-end
-
 # check if is blackjack
 
-def check_blackjack?(hand)
-  blackjack = false
-  if hand.count == 2
-    hand.each do |card|
-    blackjack = true if check_a?(hand) && check_j?(hand)
-    end
-  end
-  return blackjack
+def check_blackjack?(value)
+  return true if value == 21
 end
 
 # calculate the value of the hand
@@ -186,14 +174,14 @@ print_dealer_firsthand(dealer_hand)
 
 # check if player has blackjack before playing
 
-if check_blackjack?(player_hand)
+if check_blackjack?(player_hand_value)
   puts 'Wow, you have BlackJack, you win'
   exit
 end
 
 # check if dealer has blackjack before playing
 
-if check_blackjack?(dealer_hand)
+if check_blackjack?(dealer_hand_value)
   puts "I'm sorry, dealer has BlackJack. He win"
   exit
 end
