@@ -1,0 +1,63 @@
+Week 1 Quiz
+
+What is the value of a after the below code is executed?
+a = 1
+b = a
+b = 3
+
+# a = 1
+
+What's the difference between an Array and a Hash?
+
+# array is an ordered list of item with an index. A hash is a container of item identified by a key and a value
+
+Every Ruby expression returns a value. Say what value is returned in the below expressions:
+arr = [1, 2, 3, 3]
+
+# [1, 2, 3, 3]
+
+[1, 2, 3, 3].uniq
+
+# [1, 2, 3]
+
+[1, 2, 3, 3].uniq!
+
+# [1, 2, 3]
+
+What's the difference between the map and select methods for the Array class? Give an example of when you'd use one versus the other.
+
+# Map return true or false: Using the array of the previous example
+
+# arr.map {|value| 1 == value } return [true, false, false, false]
+# arr.select {|value| 3 == value } return [3, 3]
+
+
+Say you wanted to create a Hash. How would you do so if you wanted the hash keys to be String objects instead of symbols?
+
+# h = { "key" => "value" }
+
+What is returned?
+x = 1
+x.odd? ? "no way!" : "yes, sir!"
+
+# "no way!"
+
+
+What is x?
+
+x = 1
+3.times do
+  x += 1
+end
+puts x
+
+What is x?
+
+# x is four. 1 + 3 increment in the cycle
+
+3.times do
+  x += 1
+end
+puts x
+
+# x is nil, is not definited. You can use + for nil object
