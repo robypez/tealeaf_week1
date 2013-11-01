@@ -80,34 +80,51 @@ end
 
 def turn_card(player, card_deck)
   card = card_deck.shift
-  puts "The card is a #{card[:card]} of #{card[:suit]}"
+  print_single_card(card) 
   player << card
-  puts "Now you have:"
-  puts
-  print_card player
-  puts
 end
 
 # shuffle the card deck
 
 def shuffle(card_deck)
   card_deck.shuffle!
-  (1..10).each do |pause|
+  pause
+end
+
+# pause
+
+def pause
+(1..5).each do |pause|
     sleep 0.1
     print '*' 
   end
+puts
 end
 
-# print the card of a deck
+# print the cards of a deck
 
-def print_card(deck)
-   deck.each{ |card| puts "#{card[:card]} of #{card[:suit]}" } 
+def print_out_card_group(deck)
+   puts
+   deck.each{ |card| puts "#{card[:card]} of #{card[:suit]}" }
+   puts 
 end
 
-# print the card of the dealer in the first hand (one card is covered)
+# print single card
+
+def print_single_card(card)
+   puts
+   puts "The card is a #{card[:card]} of #{card[:suit]}"
+   puts 
+end
+
+# dealer first hand
 
 def print_dealer_firsthand(deck)
-   puts "#{deck[0][:card]} of #{deck[0][:suit]}" 
+   print "#{deck[0][:card]} of #{deck[0][:suit]}" 
+end
+
+def print_dealer_hidden_card(deck)
+   print "#{deck[1][:card]} of #{deck[1][:suit]}" 
 end
 
 # Count the number aces in a hand
@@ -121,7 +138,7 @@ end
 
 # compensate value with aces
 
-def compensate(player, value)
+def compensate_ace_value(player, value)
   (1..count_aces(player)).each do |dec|
   value = value - 10 if value > 21
   end   
@@ -155,7 +172,7 @@ puts "Good, I'm shuffling the cards"
 
 shuffle(card_deck)
 
-puts "Card shuffled, here are your cards..."
+puts "Card shuffled..."
 puts
 
 # give the cards
@@ -166,16 +183,14 @@ dealer_hand = card_deck.shift(2)
 dealer_hand_value = calculate(dealer_hand)
 player_hand_value = calculate(player_hand)
 
-puts
 puts "You have these cards: "
-puts
-print_card(player_hand)
-puts
+print_out_card_group(player_hand)
 
-puts "Dealer has these card:"
+puts "The dealer show this card: "
 puts
-puts "The dealer show this card for a value of #{dealer_hand[0][:value]}"
 print_dealer_firsthand(dealer_hand)
+print " and has a card hidden"
+puts
 
 # check if player has blackjack before playing
 
@@ -203,11 +218,11 @@ while player_hand_value < 22
   if choice == '1'
     puts 'You choose to turn card'
     turn_card(player_hand, card_deck)
-    sleep 1
+    pause
     player_hand_value = calculate(player_hand)
 
     if player_hand_value > 21 && check_a?(player_hand)
-       player_hand_value = compensate(player_hand, player_hand_value)
+       player_hand_value = compensate_ace_value(player_hand, player_hand_value)
     end
     
     if player_hand_value > 21
@@ -225,17 +240,20 @@ while player_hand_value < 22
   end
 end
 
+puts "The hidden card of de dealer is:"
+print_dealer_hidden_card(dealer_hand)
+puts
+
 while dealer_hand_value < 17
   puts "The dealer has #{dealer_hand_value} and must turn another card"
   turn_card(dealer_hand, card_deck)
   dealer_hand_value = calculate(dealer_hand)
-  sleep 1
     
   if dealer_hand_value.between?(17, 21)
     puts "Dealer has #{dealer_hand_value} and must stay"
     break
   elsif dealer_hand_value > 21 && check_a?(dealer_hand)
-    dealer_hand_value = compensate(dealer_hand, dealer_hand_value)
+    dealer_hand_value = compensate_ace_value(dealer_hand, dealer_hand_value)
   elsif dealer_hand_value > 21
     puts 'Dealer bust, you win'
     break
