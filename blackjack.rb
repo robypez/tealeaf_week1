@@ -55,7 +55,8 @@ single_deck = [{ card: 'Ace', suit: :spades, value:  11 },
                { card: '10', suit: :clubs, value: 10 },
                { card: 'Jack', suit: :clubs, value: 10 },
                { card: 'Queen', suit: :clubs, value: 10 },
-               { card: 'King', suit: :clubs, value: 10 }]
+               { card: 'King', suit: :clubs, value: 10 }
+             ]
 
 # check is there is an "Ace"
 
@@ -81,6 +82,10 @@ def turn_card(player, card_deck)
   card = card_deck.shift
   puts "The card is a #{card[:card]} of #{card[:suit]}"
   player << card
+  puts "Now you have:"
+  puts
+  print_card player
+  puts
 end
 
 # shuffle the card deck
@@ -138,7 +143,7 @@ game_type = gets.chomp
 
 # build the match deck : you can choose beetween single deck and 4 deck game
 
-if game_type == 1
+if game_type == "1"
   card_deck = single_deck
 else
   card_deck = single_deck * 4
@@ -169,7 +174,7 @@ puts
 
 puts "Dealer has these card:"
 puts
-puts "The dealer show #{dealer_hand[0][:value]} (real value #{dealer_hand_value})"
+puts "The dealer show this card for a value of #{dealer_hand[0][:value]}"
 print_dealer_firsthand(dealer_hand)
 
 # check if player has blackjack before playing
@@ -202,7 +207,7 @@ while player_hand_value < 22
     player_hand_value = calculate(player_hand)
 
     if player_hand_value > 21 && check_a?(player_hand)
-       compensate(player_hand, player_hand_value)
+       player_hand_value = compensate(player_hand, player_hand_value)
     end
     
     if player_hand_value > 21
@@ -230,7 +235,7 @@ while dealer_hand_value < 17
     puts "Dealer has #{dealer_hand_value} and must stay"
     break
   elsif dealer_hand_value > 21 && check_a?(dealer_hand)
-    compensate(dealer_hand, dealer_hand_value)
+    dealer_hand_value = compensate(dealer_hand, dealer_hand_value)
   elsif dealer_hand_value > 21
     puts 'Dealer bust, you win'
     break
